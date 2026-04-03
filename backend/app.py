@@ -265,6 +265,16 @@ def notes():
                     db.session.delete(note)
                     db.session.commit()
                     flash("Note supprimée avec succès", "success")
+        elif action == 'edit':
+            if session.get('user_role') == 'admin':
+                note_id = request.form.get('note_id')
+                nouvelle_valeur = request.form.get('nouvelle_valeur')
+                if note_id and nouvelle_valeur:
+                    note = Note.query.get(note_id)
+                    if note:
+                        note.valeur = float(nouvelle_valeur)
+                        db.session.commit()
+                        flash("Note modifiée avec succès", "success")
         else:
             # Action classique d'ajout
             if session.get('user_role') in ['professeur', 'admin']:
