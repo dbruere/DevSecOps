@@ -1,0 +1,138 @@
+/* Reset global identique à ton exemple */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f3f4f6; /* Le fond gris clair */
+    color: #334155;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* --- La barre supérieure (Header) --- */
+
+
+.logo {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.role-badge {
+    background-color: #3b82f6; /* Bleu de notification */
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+/* --- Conteneur Principal --- */
+.main-container {
+    padding: 2rem;
+    max-width: 1000px;
+    margin: 0 auto; /* Centre le contenu */
+    width: 100%;
+    flex-grow: 1;
+}
+
+.header-section {
+    margin-bottom: 2rem;
+}
+
+h1 { font-size: 1.8rem; color: #0f172a; }
+h2 { font-size: 1.3rem; margin-bottom: 1rem; color: #1e293b; }
+
+/* --- Cartes (Cards) pour détacher le contenu du fond gris --- */
+.card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    margin-bottom: 2rem;
+}
+
+/* --- Formulaire Professeur --- */
+.form-section {
+    border-top: 4px solid #3b82f6; /* Petite bande bleue en haut de la carte */
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #475569;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+button {
+    background-color: #3b82f6;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.2s;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #2563eb;
+}
+
+/* --- Tableau des Notes --- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+    background-color: #f8fafc;
+    font-weight: 600;
+    color: #475569;
+}
+
+tr:hover td {
+    background-color: #f1f5f9; /* Effet de survol sur les lignes du tableau */
+}
+
+/* --- Section Informations (Fichier texte) --- */
+pre {
+    background-color: #f8fafc;
+    padding: 1rem;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    color: #334155;
+    white-space: pre-wrap; /* Pour que le texte aille à la ligne correctement */
+    font-family: inherit; /* Utilise la police globale au lieu du style "code" */
+}
+@media (max-width: 768px) {  .nav-links { margin-left: 0 !important; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; } .main-container { padding: 10px; } table { width: 100%; display: block; overflow-x: auto; white-space: nowrap; } form.form-grid { display: flex; flex-direction: column; } }

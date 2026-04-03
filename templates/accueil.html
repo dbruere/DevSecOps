@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Accueil de l'intranet DevSecOps : actualités, emploi du temps et notes.">
+    <title>Intranet - ACCUEIL</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='accueil.css') }}">
+    
+
+    
+</head>
+<body>
+    
+    {% include 'navbar.html' %}
+    <div class="main-container">
+        
+        <div class="header-section">
+            <h1>ACCUEIL</h1>
+            <p class="page-subtitle">Bienvenue {{ username }} sur votre espace DevSecOps. Voici votre résumé du jour.</p>
+        </div>
+
+        <!-- Widget : Actualités -->
+        <div class="card">
+            <h2>📰 Actualités</h2>
+            <div class="news-list">
+                {% for actu in actus %}
+                <div class="news-item">
+                    <span class="news-badge {{ actu.type }}">{{ 'Urgent' if actu.type == 'urgence' else 'Info' }}</span>
+                    <h3>{{ actu.titre }}</h3>
+                    <p>{{ actu.desc }}</p>
+                    <span class="news-date">{{ actu.date }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Widget : Notes récentes -->
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h2 style="margin: 0;">🎓 Notes récentes</h2>
+                <a href="{{ url_for('notes') }}" style="display:inline-block; padding:8px 15px; background-color:#2563eb; color:white; text-decoration:none; border-radius:5px; font-size:0.9em;">Voir mes Notes</a>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Matière</th>
+                        <th>Note</th>
+                        {% if role != 'etudiant' %}
+                        <th>Étudiant</th>
+                        {% endif %}
+                        <th>Date d'ajout</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for note in recent_notes %}
+                    <tr>
+                        <td>{{ note.matiere }}</td>
+                        <td><strong>{{ note.valeur }} / 20</strong></td>
+                        {% if role != 'etudiant' %}
+                        <td>{{ note.etudiant_nom }}</td>
+                        {% endif %}
+                        <td>{{ note.date_formatee }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="{% if role != 'etudiant' %}4{% else %}3{% endif %}" style="text-align: center; color: #64748b;">Aucune note à afficher.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Widget : Emploi du Temps du Jour -->
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h2 style="margin: 0;">📅 Emploi du Temps du Jour</h2>
+                <a href="{{ url_for('edt') }}" style="display:inline-block; padding:8px 15px; background-color:#10b981; color:white; text-decoration:none; border-radius:5px; font-size:0.9em;">Voir l'Emploi du Temps</a>
+            </div>
+            <div id="mini-calendar" style="padding:15px; background:#f8fafc; border-radius:8px; border:1px solid #e2e8f0; text-align:left;">
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Script FullCalendar pour le mini-calendrier de l'accueil -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('mini-calendar');
+            // Récupération des cours envoyés par Flask (conversion objet vers JSON manuel)
+            var rawCours = [
+                {% for c in cours_jour %}
+                {
+                    "id": "{{ c.id }}",
+                    "title": "{{ c.title|e }}",
+                    "start": "{{ c.start }}",
+                    "end": "{{ c.end }}",
+                    "extendedProps": {
+                        "classe": "{{ c.classe|e }}",
+                        "professeur": "{{ c.professeur|e }}"
+                    }
+                }{% if not loop.last %},{% endif %}
+                {% endfor %}
+            ];
+            
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'timeGridDay',
+                locale: 'fr',
+                allDaySlot: false,
+                slotMinTime: '08:00:00',
+                slotMaxTime: '19:00:00',
+                headerToolbar: false, // Pas d'en-tête pour un affichage épuré
+                dayHeaders: false, // Cache le jour (ex: "lundi") en haut
+                height: 'auto',
+                editable: false,
+                events: rawCours,
+                eventContent: function(arg) {
+                    var title = arg.event.title;
+                    var prof = arg.event.extendedProps.professeur;
+                    var cssClass = arg.event.extendedProps.classe;
+                    var html = '<div style="font-size:0.9em; padding:2px;"><b>' + title + '</b><br><small>Classe ' + cssClass + ' - ' + prof + '</small></div>';
+                    return { html: html };
+                }
+            });
+            calendar.render();
+        });
+    </script>
+
+    <!-- Theme and Responsive Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Burger menu
+            const burger = document.getElementById('burger-menu');
+            const navLinks = document.getElementById('nav-links');
+            const userControls = document.getElementById('user-controls');
+            if(burger) {
+                burger.addEventListener('click', () => {
+                    navLinks.classList.toggle('active');
+                    userControls.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

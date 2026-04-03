@@ -1,0 +1,44 @@
+
+
+/* Extracted from evaluations.html */
+.classes-badge-container { margin-bottom: 20px; }
+        .classe-badge {
+            display: inline-block;
+            background-color: #f1f5f9;
+            color: #334155;
+            padding: 5px 10px;
+            border-radius: 4px;
+            border: 1px solid #cbd5e1;
+            margin-right: 5px;
+            font-weight: bold;
+        }
+        .eval-card {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .eval-card h3 { margin-top: 0; color: #0f172a; display: flex; justify-content: space-between;}
+        .eval-card h3 span.badge { font-size: 0.6em; background: #3b82f6; color: white; padding: 3px 8px; border-radius: 12px; font-weight: normal; margin-left: 10px; vertical-align: middle; }
+        .eval-desc { color: #475569; margin: 10px 0; }
+        .eval-meta { font-size: 0.85em; color: #64748b; }
+        .btn-delete { background-color: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+        .btn-delete:hover { background-color: #dc2626; }
+
+/* Responsive Topbar */
+        .topbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .nav-links { display: flex; flex-grow: 1; margin-left: 20px; align-items: center; border:none;}
+        .nav-links a { color: white; margin: 0 10px; text-decoration: none; font-weight: bold; }
+        .user-controls { display: flex; align-items: center; }
+        .logout-btn { color: white; margin-left: 15px; text-decoration: none; font-weight: bold; }
+        .burger-menu { display: none; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+        .theme-toggle { background: none; border: none; font-size: 1.2rem; cursor: pointer; margin-right: 15px; }
+        
+        @media (max-width: 768px) {
+            .burger-menu { display: block; }
+            .nav-links, .user-controls { display: none; width: 100%; flex-direction: column; text-align: center; margin-top: 10px; gap: 10px; }
+            .nav-links.active, .user-controls.active { display: flex; }
+            .topbar { padding: 1rem; }
+        }

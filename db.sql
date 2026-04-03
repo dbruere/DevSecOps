@@ -1,0 +1,40 @@
+CREATE DATABASE IF NOT EXISTS intranet;
+USE intranet;
+
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    login VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(20) NOT NULL,
+    nom VARCHAR(50) DEFAULT 'Doe',
+    prenom VARCHAR(50) DEFAULT 'John',
+    classe VARCHAR(50) DEFAULT '1',
+    matiere VARCHAR(100) DEFAULT NULL
+);
+
+CREATE TABLE IF NOT EXISTS notes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    etudiant_id INT NOT NULL,
+    matiere VARCHAR(100) NOT NULL,
+    valeur FLOAT NOT NULL,
+    date_ajout DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (etudiant_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS cours (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    professeur VARCHAR(100) DEFAULT NULL,
+    start VARCHAR(50) NOT NULL,
+    end VARCHAR(50) NOT NULL,
+    classe VARCHAR(50) DEFAULT NULL
+);
+
+CREATE TABLE IF NOT EXISTS evaluations (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    titre VARCHAR(100) NOT NULL,
+    description TEXT,
+    date_limite VARCHAR(50),
+    classe VARCHAR(50) NOT NULL,
+    professeur VARCHAR(100) NOT NULL
+);

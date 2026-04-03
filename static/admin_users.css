@@ -1,0 +1,24 @@
+
+
+/* Extracted from admin_users.html */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button[type="submit"] { background: #2563eb; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        button[type="submit"]:hover { background: #1d4ed8; }
+
+/* Responsive Topbar */
+        .topbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .nav-links { display: flex; flex-grow: 1; margin-left: 20px; align-items: center; border:none;}
+        .nav-links a { color: white; margin: 0 10px; text-decoration: none; font-weight: bold; }
+        .user-controls { display: flex; align-items: center; }
+        .logout-btn { color: white; margin-left: 15px; text-decoration: none; font-weight: bold; }
+        .burger-menu { display: none; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+        .theme-toggle { background: none; border: none; font-size: 1.2rem; cursor: pointer; margin-right: 15px; }
+        
+        @media (max-width: 768px) {
+            .burger-menu { display: block; }
+            .nav-links, .user-controls { display: none; width: 100%; flex-direction: column; text-align: center; margin-top: 10px; gap: 10px; }
+            .nav-links.active, .user-controls.active { display: flex; }
+            .topbar { padding: 1rem; }
+        }

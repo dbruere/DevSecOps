@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Intranet - Admin Utilisateurs</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='accueil.css') }}">
+    
+
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin_users.css') }}">
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="main-container">
+        <div class="header-section">
+            <h1>Gestion des Utilisateurs</h1>
+            <p class="page-subtitle">Administration complète des comptes de la plateforme</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div style="padding: 10px; margin-bottom:15px; background-color: #d4edda; color: #155724; border-radius:5px;">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="card">
+            <h2>➕ Créer un utilisateur</h2>
+            
+                <form action="{{ url_for('admin_users') }}" method="POST">
+                  <input type="hidden" name="action" value="create">
+                <div class="form-grid">
+                    <div class="form-group"><label>Nom d'utilisateur (Login)</label><input type="text" name="login" required></div>
+                    <div class="form-group"><label>Mot de passe</label><input type="password" name="password" required></div>
+                    <div class="form-group">
+                        <label>Rôle</label>
+                        <select name="role" id="role-select" required>
+                            <option value="etudiant">Étudiant</option>
+                            <option value="professeur">Professeur</option>
+                            <option value="admin">Administrateur</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Nom</label><input type="text" name="nom" required></div>
+                    <div class="form-group"><label>Prénom</label><input type="text" name="prenom" required></div>
+                    
+                    <div class="form-group" id="group-classe">
+                        <label>Classe</label>
+                        <select name="classe">
+                            <option value="1">Classe 1</option>
+                            <option value="2">Classe 2</option>
+                            <option value="3">Classe 3</option>
+                            <option value="4">Classe 4</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" id="group-matiere" style="display:none;">
+                        <label>Matière enseignée</label>
+                        <input type="text" name="matiere" placeholder="Ex: Mathématiques">
+                    </div>
+                </div>
+                <button type="submit">Créer le compte</button>
+                  </form>
+            
+        </div>
+
+        <script>
+            document.getElementById('role-select').addEventListener('change', function(e) {
+                document.getElementById('group-classe').style.display = e.target.value === 'etudiant' ? 'block' : 'none';
+                document.getElementById('group-matiere').style.display = e.target.value === 'professeur' ? 'block' : 'none';
+            });
+        </script>
+
+        <div class="card">
+            <h2>📋 Liste et Modification des utilisateurs</h2>
+            <form action="{{ url_for('admin_users') }}" method="POST">
+              <input type="hidden" name="action" value="edit_all">
+              <div style="text-align: right; margin-bottom: 10px;">
+                  <button type="submit" style="background: #2563eb; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">Tout mettre à jour</button>
+              </div>
+              <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom Complet</th>
+                        <th>Login</th>
+                        <th>Rôle</th>
+                        <th>Classe/Matière</th>
+                        <th>Action Rapide</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        
+                            
+                            
+                            <td>{{ user.id }}<input type="hidden" name="user_id_list" value="{{ user.id }}"></td>
+                            <td>{{ user.prenom }} {{ user.nom }}</td>
+                            {% if user.login == 'admin' %}
+                            <td>
+                                {{ user.login }}
+                                <input type="hidden" name="login_{{ user.id }}" value="{{ user.login }}">
+                            </td>
+                            <td>
+                                Admin
+                                <input type="hidden" name="role_{{ user.id }}" value="{{ user.role }}">
+                            </td>
+                            <td>-</td>
+                            {% else %}
+                            <td><input type="text" name="login_{{ user.id }}" value="{{ user.login }}" style="padding:4px; width:80px;"></td>
+                            <td>
+                                <select name="role_{{ user.id }}" class="edit-role-select" data-userid="{{ user.id }}" style="padding:4px;">
+                                    <option value="etudiant" {% if user.role == 'etudiant' %}selected{% endif %}>Étudiant</option>
+                                    <option value="professeur" {% if user.role == 'professeur' %}selected{% endif %}>Professeur</option>
+                                    <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Admin</option>
+                                </select>
+                            </td>
+                            <td>
+                                <div id="edit-classe-group-{{ user.id }}" style="display: {% if user.role == 'etudiant' %}block{% else %}none{% endif %};">
+                                    <select name="classe_{{ user.id }}" style="padding:4px;">
+                                        <option value="1" {% if user.classe == '1' %}selected{% endif %}>Classe 1</option>
+                                        <option value="2" {% if user.classe == '2' %}selected{% endif %}>Classe 2</option>
+                                        <option value="3" {% if user.classe == '3' %}selected{% endif %}>Classe 3</option>
+                                        <option value="4" {% if user.classe == '4' %}selected{% endif %}>Classe 4</option>
+                                    </select>
+                                </div>
+                                <div id="edit-matiere-group-{{ user.id }}" style="display: {% if user.role == 'professeur' %}block{% else %}none{% endif %};">
+                                    <input type="text" name="matiere_{{ user.id }}" value="{{ user.matiere or '' }}" placeholder="Matière" style="padding:4px; width:100px;">
+                                </div>
+                            </td>
+                            {% endif %}
+                            <td style="display:flex; gap:5px; align-items:center;">
+                                <input type="password" name="password_{{ user.id }}" placeholder="Nouveau MDP ?" style="padding:4px; width:110px;">
+                                
+                        
+                            {% if user.login != 'admin' %}
+                            
+                                
+                                
+                                <button type="submit" name="delete_user" value="{{ user.id }}"  style="margin:0; padding:5px 10px; font-size:14px; border-radius:3px; background:#ef4444; color:white; border:none; cursor:pointer;">Supprimer</button>
+                            
+                            {% endif %}
+                            </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+              <div style="text-align: right; margin-top: 10px;">
+                  <button type="submit" style="background: #2563eb; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">Tout mettre à jour</button>
+              </div>
+          </form>
+        </div>
+    </div>
+    
+    <script>
+        document.querySelectorAll('.edit-role-select').forEach(function(select) {
+            select.addEventListener('change', function(e) {
+                const userId = e.target.getAttribute('data-userid');
+                const role = e.target.value;
+                document.getElementById('edit-classe-group-' + userId).style.display = role === 'etudiant' ? 'block' : 'none';
+                document.getElementById('edit-matiere-group-' + userId).style.display = role === 'professeur' ? 'block' : 'none';
+            });
+        });
+    </script>
+
+    <!-- Theme and Responsive Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Burger menu
+            const burger = document.getElementById('burger-menu');
+            const navLinks = document.getElementById('nav-links');
+            const userControls = document.getElementById('user-controls');
+            if(burger) {
+                burger.addEventListener('click', () => {
+                    navLinks.classList.toggle('active');
+                    userControls.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

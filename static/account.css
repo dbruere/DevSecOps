@@ -1,0 +1,148 @@
+
+
+/* Extracted from account.html */
+:root {
+            --nav-bg: #111827;
+            --body-bg: #f3f4f6;
+            --card-bg: #ffffff;
+            --primary: #3b82f6;
+            --success: #10b981;
+            --error: #ef4444;
+            --text-main: #1f2937;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--body-bg);
+            margin: 0;
+            color: var(--text-main);
+        }
+
+        /* Header / Navbar style MonCampus */
+        header {
+            background-color: var(--nav-bg);
+            color: white;
+            padding: 12px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .user-info {
+            font-size: 0.9rem;
+        }
+
+        .role-badge {
+            background: var(--primary);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        /* Layout */
+        .main-content {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr; /* Tableau à gauche, form à droite */
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 1.25rem;
+            color: var(--nav-bg);
+            border-bottom: 2px solid var(--body-bg);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Tableau des utilisateurs */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th {
+            text-align: left;
+            background: var(--body-bg);
+            padding: 12px;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid var(--body-bg);
+        }
+
+        tr:hover {
+            background-color: #f9fafb;
+        }
+
+        /* Formulaire */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 0.9rem;
+        }
+
+        button {
+            width: 100%;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            margin-top: 10px;
+        }
+
+        button:hover { opacity: 0.9; }
+
+        /* Notifications */
+        .alert {
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 0.85rem;
+        }
+        .alert-success { background: #d1fae5; color: #065f46; border: 1px solid var(--success); }
+        .alert-error { background: #fee2e2; color: #991b1b; border: 1px solid var(--error); }
+
+        @media (max-width: 850px) {
+            .main-content { grid-template-columns: 1fr; }
+        }

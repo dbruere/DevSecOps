@@ -1,0 +1,158 @@
+/* Reset global identique à la page notes */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f3f4f6; /* Le fond gris clair */
+    color: #334155;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* --- La barre supérieure (Header) --- */
+
+
+.logo {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.role-badge {
+    background-color: #3b82f6; /* Bleu de notification */
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+/* --- Conteneur Principal --- */
+.main-container {
+    padding: 2rem;
+    max-width: 1000px;
+    margin: 0 auto; /* Centre le contenu */
+    width: 100%;
+    flex-grow: 1;
+}
+
+.header-section {
+    margin-bottom: 2rem;
+}
+
+h1 { font-size: 1.8rem; color: #0f172a; margin-bottom: 0.5rem; }
+.page-subtitle { color: #64748b; font-size: 1.1rem; }
+h2 { font-size: 1.3rem; margin-bottom: 1rem; color: #1e293b; }
+
+/* --- Cartes (Cards) --- */
+.card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    margin-bottom: 2rem;
+}
+
+/* --- Tableau des Notes --- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+    background-color: #f8fafc;
+    font-weight: 600;
+    color: #475569;
+}
+
+tr:hover td {
+    background-color: #f1f5f9; /* Effet de survol sur les lignes du tableau */
+}
+
+/* --- Actualités --- */
+.news-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.news-item {
+    padding: 1rem;
+    background-color: #f8fafc;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+}
+
+.news-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
+
+.news-badge.urgence {
+    background-color: #fee2e2;
+    color: #ef4444;
+}
+
+.news-badge.info {
+    background-color: #dbeafe;
+    color: #3b82f6;
+}
+
+.news-item h3 {
+    font-size: 1.1rem;
+    color: #0f172a;
+    margin-bottom: 0.25rem;
+}
+
+.news-item p {
+    color: #475569;
+    font-size: 0.95rem;
+}
+
+.news-date {
+    display: block;
+    font-size: 0.8rem;
+    color: #94a3b8;
+    margin-top: 0.5rem;
+}
+
+@media (max-width: 768px) {  .nav-links { margin-left: 0 !important; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; } .main-container { padding: 10px; } }
+
+
+/* Extracted from accueil.html */
+/* Supprimer l'espace vide potentiel pour FullCalendar (comme sur l'EDT) */
+        .fc-timegrid-col-events { margin: 0 !important; }
+        .fc-timegrid-event-harness-inset { margin-right: 0 !important; }
+        .fc .fc-timegrid-event { margin-right: 0 !important; border-radius: 4px !important; } /* Légèrement arrondi pour l'accueil */
+        #mini-calendar .fc-scrollgrid-sync-inner { font-size: 0.9em; }
+
+/* Responsive Topbar */
+        .topbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .nav-links { display: flex; flex-grow: 1; margin-left: 20px; align-items: center; border:none;}
+        .nav-links a { color: white; margin: 0 10px; text-decoration: none; font-weight: bold; }
+        .user-controls { display: flex; align-items: center; }
+        .logout-btn { color: white; margin-left: 15px; text-decoration: none; font-weight: bold; }
+        .burger-menu { display: none; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+        .theme-toggle { background: none; border: none; font-size: 1.2rem; cursor: pointer; margin-right: 15px; }
+        
+        @media (max-width: 768px) {
+            .burger-menu { display: block; }
+            .nav-links, .user-controls { display: none; width: 100%; flex-direction: column; text-align: center; margin-top: 10px; gap: 10px; }
+            .nav-links.active, .user-controls.active { display: flex; }
+            .topbar { padding: 1rem; }
+        }

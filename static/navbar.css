@@ -1,0 +1,50 @@
+
+
+/* Extracted from navbar.html */
+*, *::before, *::after {
+        box-sizing: border-box;
+    }
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100%;
+    }
+    .topbar-wrapper {
+        margin: 0 !important;
+        background-color: #1e293b;
+        width: 100%;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+    }
+    /* We must push the rest of the body down so it is not hidden under the fixed topbar */
+    body {
+        padding-top: 80px !important;
+    }
+    .topbar-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: nowrap;
+        max-width: 1300px;
+        margin: 0 auto;
+        padding: 1rem 2rem;
+        width: 100%;
+    }
+    .logo { font-size: 1.25rem; font-weight: 600; letter-spacing: 0.5px; white-space: nowrap; }
+    .logo a { color: white; text-decoration: none; }
+    .nav-links { display: flex; flex-grow: 1; margin-left: 20px; align-items: center; justify-content: flex-start; border:none; white-space: nowrap;}
+    .nav-links a { color: white; margin: 0 12px; text-decoration: none; font-weight: bold; font-size: 0.95rem; }
+    .user-controls { display: flex; align-items: center; white-space: nowrap; }
+    .role-badge { background-color: #3b82f6; padding: 0.35rem 0.85rem; border-radius: 9999px; font-size: 0.85rem; font-weight: bold; color:white; display: inline-block;}
+    .logout-btn { color: white; margin-left: 15px; text-decoration: none; font-weight: bold; font-size: 0.95rem;}
+    .burger-menu { display: none; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+
+    @media (max-width: 900px) {
+        .topbar-content { flex-wrap: wrap; }
+        .burger-menu { display: block; }
+        .nav-links, .user-controls { display: none; width: 100%; flex-direction: column; text-align: center; margin-top: 10px; gap: 10px; }
+        .nav-links.active, .user-controls.active { display: flex; }
+    }

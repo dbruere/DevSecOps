@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intranet - Emploi du temps</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='edt.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+
+    
+
+    
+</head>
+<body style="margin: 0; background-color: #f3f4f6; font-family: sans-serif;">
+    {% include 'navbar.html' %}
+
+<div id="selecteur_container" style="display: none;">
+    {% if session.get('user_role') in ['admin', 'professeur'] %}
+    <select id="classSelector" style="padding: 6px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 0.9rem; color: #1e293b; background: white; cursor: pointer; outline: none; margin-left: 15px;">
+        <option value="1">Classe 1</option>
+        <option value="2">Classe 2</option>
+        <option value="3">Classe 3</option>
+        <option value="4">Classe 4</option>
+    </select>
+    {% else %}
+    <input type="hidden" id="classSelector" value="1">
+    {% endif %}
+</div>
+
+    <div id="calendar_container">
+        <div id="calendar"></div>
+    </div>
+
+    <!-- POP-UP POUR AJOUTER UN COURS -->
+    <dialog id="addEventModal">
+        <h3 class="modal-title">Nouveau cours</h3>
+        
+        <label class="modal-label">Matière</label>
+        <input type="text" id="eventTitle" class="modal-input" placeholder="Ex: Cybersécurité" autocomplete="off" />
+
+        <label class="modal-label">Professeur</label>
+        <input type="text" id="eventProfesseur" class="modal-input" placeholder="Ex: M. Dupont" autocomplete="off" />
+        
+        <div class="modal-flex">
+            <div>
+                <label class="modal-label">Heure de début</label>
+                <input type="time" id="eventStart" class="modal-input" />
+            </div>
+            <div>
+                <label class="modal-label">Heure de fin</label>
+                <input type="time" id="eventEnd" class="modal-input" />
+            </div>
+        </div>
+
+        <div class="modal-buttons">
+            <button class="btn btn-cancel" onclick="document.getElementById('addEventModal').close()">Annuler</button>
+            <button class="btn btn-primary" id="saveEventBtn">Ajouter</button>
+        </div>
+    </dialog>
+
+    <!-- POP-UP POUR GERER UN COURS (MODIFIER/SUPPRIMER) -->
+    <dialog id="editEventModal">
+        <h3 class="modal-title">Gérer le cours</h3>
+        
+        <label class="modal-label">Matière</label>
+        <input type="text" id="editEventTitle" class="modal-input" autocomplete="off" />
+
+        <label class="modal-label">Professeur</label>
+        <input type="text" id="editEventProfesseur" class="modal-input" autocomplete="off" />
+        
+        <div class="modal-flex">
+            <div>
+                <label class="modal-label">Heure de début</label>
+                <input type="time" id="editEventStart" class="modal-input" />
+            </div>
+            <div>
+                <label class="modal-label">Heure de fin</label>
+                <input type="time" id="editEventEnd" class="modal-input" />
+            </div>
+        </div>
+
+        <div class="modal-buttons" style="justify-content: space-between; gap: 10px;">
+            <button class="btn btn-danger" id="deleteEventBtn" style="flex: 1;">Supprimer</button>
+            <button class="btn btn-cancel" onclick="document.getElementById('editEventModal').close()" style="flex: 1;">Annuler</button>
+            <button class="btn btn-primary" id="updateEventBtn" style="flex: 1;">Enregistrer</button>
+        </div>
+    </dialog>
+
+    <script>
+        window.userRole = "{{ session.get('user_role', '') }}";
+        window.userName = "{{ session.get('username', '') }}";
+    </script>
+    <script src="{{ url_for('static', filename='edt.js') }}"></script>
+
+    <!-- Theme and Responsive Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Burger menu
+            const burger = document.getElementById('burger-menu');
+            const navLinks = document.getElementById('nav-links');
+            const userControls = document.getElementById('user-controls');
+            if(burger) {
+                burger.addEventListener('click', () => {
+                    navLinks.classList.toggle('active');
+                    userControls.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,98 @@
+name: setup container
+
+on:
+  push:
+    paths:
+      - '**/*'
+  pull_request:
+    paths:
+      - '**/*'
+
+jobs:
+
+  #--------------------------------#
+  #         SET UP FLAKE8          #
+  #--------------------------------#
+  flake8_py3:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install flake8
+        run: pip install flake8
+      - name: Run flake8
+        uses: suo/flake8-github-action@releases/v1
+        with:
+          checkName: 'flake8_py3'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  #--------------------------------#
+  #        SET UP ZAP-SCAN         #
+  #--------------------------------#
+  zap_scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: ZAP Scan
+        uses: zaproxy/action-full-scan@v0.13.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          docker_name: 'ghcr.io/zaproxy/zaproxy:stable'
+          target: 'https://www.zaproxy.org/'
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a'
+
+    #--------------------------------#
+  #      SET UP SONAR-CLOUD        #
+  #--------------------------------#
+  sonar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Run SonarCloud
+        uses: SonarSource/sonarcloud-github-action@v3
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  #--------------------------------#
+  #       SET UP PIP-AUDIT         #
+  #--------------------------------#
+  selftest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install package
+        run: python -m pip install .
+      - uses: pypa/gh-action-pip-audit@v1.1.0
+
+  #--------------------------------#
+  #         SET UP DOCKER          #
+  #--------------------------------#
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+      - name: Build and Push Docker image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/my-app:latest
