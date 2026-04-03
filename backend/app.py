@@ -269,12 +269,16 @@ def notes():
             if session.get('user_role') == 'admin':
                 note_id = request.form.get('note_id')
                 nouvelle_valeur = request.form.get('nouvelle_valeur')
+                print(f"================ EDIT RECEIVED: {note_id}, {nouvelle_valeur} ================", flush=True)
                 if note_id and nouvelle_valeur:
-                    note = Note.query.get(note_id)
+                    note = Note.query.get(int(note_id))
                     if note:
-                        note.valeur = float(nouvelle_valeur)
-                        db.session.commit()
-                        flash("Note modifiée avec succès", "success")
+                        try:
+                            note.valeur = float(str(nouvelle_valeur).replace(',', '.'))
+                            db.session.commit()
+                            flash("Note modifiée avec succès", "success")
+                        except ValueError:
+                            flash("Valeur invalide pour la note.", "error")
         else:
             # Action classique d'ajout
             if session.get('user_role') in ['professeur', 'admin']:
@@ -282,17 +286,20 @@ def notes():
                 matiere = request.form.get('matiere', 'Matière par défaut')
                 valeur = request.form.get('valeur')
                 if etu_id and valeur:
-                    nouvelle_note = Note(etudiant_id=etu_id, matiere=matiere, valeur=float(valeur))
-                    db.session.add(nouvelle_note)
-                    db.session.commit()
-                    flash("Note ajoutée avec succès", "success")
-        return redirect(url_for('notes'))
-
-    matieres = ['Sécurité des Réseaux', 'Cryptographie', 'Développement Sécurisé']
-    etudiants = User.query.filter_by(role='etudiant').all()
+                    try:
+                        val_float = float(str(valeur).replace(',', '.'))
+                        nouvelle_note = Note(etudiant_id=etu_id, matiere=matiere, valeur=val_float)
+                        db.session.add(nouvelle_note)
+                        db.session.commit()
+                        flash("Note ajoutée avec succès", "success")
+                    except ValueError:
+                        flash("Valeur de note invalide", "error")
 
     # RBAC: Tout le monde a un accès mais différent
     # Un étudiant ne voit que ses notes, un prof ou admin voit toutes les notes (ou selon les règles précises)
+    matieres = ['Sécurité des Réseaux', 'Cryptographie', 'Développement Sécurisé']
+    etudiants = User.query.filter_by(role='etudiant').all()
+
     if session.get('user_role') == 'etudiant':
         notes_query = Note.query.filter_by(etudiant_id=session.get('user_id')).all()
     else:

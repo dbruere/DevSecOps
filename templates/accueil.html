@@ -39,7 +39,7 @@
         <div class="card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                 <h2 style="margin: 0;">🎓 Notes récentes</h2>
-                <a href="{{ url_for('notes') }}" style="display:inline-block; padding:8px 15px; background-color:#2563eb; color:white; text-decoration:none; border-radius:5px; font-size:0.9em;">Voir mes Notes</a>
+                <a href="{{ url_for('notes') }}" style="display:inline-block; padding:8px 15px; background-color:#10b981; color:white; text-decoration:none; border-radius:5px; font-size:0.9em;">Voir mes Notes</a>
             </div>
             <table>
                 <thead>
@@ -96,6 +96,8 @@
                     "title": "{{ c.title|e }}",
                     "start": "{{ c.start }}",
                     "end": "{{ c.end }}",
+                    "backgroundColor": "#10b981",
+                    "borderColor": "#10b981",
                     "extendedProps": {
                         "classe": "{{ c.classe|e }}",
                         "professeur": "{{ c.professeur|e }}"

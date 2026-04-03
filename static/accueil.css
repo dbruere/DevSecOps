@@ -7,8 +7,8 @@
 }
 
 body {
-    background-color: #f3f4f6; /* Le fond gris clair */
-    color: #334155;
+    background-color: #f5f5f0; /* Blanc cassé */
+    color: #121212; /* Noir */
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -24,7 +24,7 @@ body {
 }
 
 .role-badge {
-    background-color: #3b82f6; /* Bleu de notification */
+    background-color: #10b981; /* Vert */
     padding: 0.35rem 0.85rem;
     border-radius: 9999px;
     font-size: 0.85rem;
@@ -44,16 +44,16 @@ body {
     margin-bottom: 2rem;
 }
 
-h1 { font-size: 1.8rem; color: #0f172a; margin-bottom: 0.5rem; }
-.page-subtitle { color: #64748b; font-size: 1.1rem; }
-h2 { font-size: 1.3rem; margin-bottom: 1rem; color: #1e293b; }
+h1 { font-size: 1.8rem; color: #121212; margin-bottom: 0.5rem; }
+.page-subtitle { color: #121212; font-size: 1.1rem; }
+h2 { font-size: 1.3rem; margin-bottom: 1rem; color: #121212; }
 
 /* --- Cartes (Cards) --- */
 .card {
-    background-color: white;
+    background-color: #f5f5f0;
     border-radius: 8px;
     padding: 1.5rem;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    box-shadow: 0 1px 3px 0 #121212, 0 1px 2px 0 #121212;
     margin-bottom: 2rem;
 }
 
@@ -66,17 +66,17 @@ table {
 th, td {
     padding: 1rem;
     text-align: left;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid #f5f5f0;
 }
 
 th {
-    background-color: #f8fafc;
+    background-color: #f5f5f0; /* Blanc cassé */
     font-weight: 600;
-    color: #475569;
+    color: #121212;
 }
 
 tr:hover td {
-    background-color: #f1f5f9; /* Effet de survol sur les lignes du tableau */
+    background-color: #e6f4ea; /* Vert très clair au survol */
 }
 
 /* --- Actualités --- */
@@ -88,9 +88,9 @@ tr:hover td {
 
 .news-item {
     padding: 1rem;
-    background-color: #f8fafc;
+    background-color: #f5f5f0;
     border-radius: 6px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #f5f5f0;
 }
 
 .news-badge {
@@ -104,23 +104,23 @@ tr:hover td {
 }
 
 .news-badge.urgence {
-    background-color: #fee2e2;
-    color: #ef4444;
+    background-color: #121212; /* Noir */
+    color: #f5f5f0; /* Blanc cassé */
 }
 
 .news-badge.info {
-    background-color: #dbeafe;
-    color: #3b82f6;
+    background-color: #e6f4ea; /* Fond vert clair */
+    color: #10b981; /* Vert */
 }
 
 .news-item h3 {
     font-size: 1.1rem;
-    color: #0f172a;
+    color: #121212;
     margin-bottom: 0.25rem;
 }
 
 .news-item p {
-    color: #475569;
+    color: #121212;
     font-size: 0.95rem;
 }
 
@@ -144,10 +144,10 @@ tr:hover td {
 /* Responsive Topbar */
         .topbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
         .nav-links { display: flex; flex-grow: 1; margin-left: 20px; align-items: center; border:none;}
-        .nav-links a { color: white; margin: 0 10px; text-decoration: none; font-weight: bold; }
+        .nav-links a { color: #f5f5f0; margin: 0 10px; text-decoration: none; font-weight: bold; }
         .user-controls { display: flex; align-items: center; }
-        .logout-btn { color: white; margin-left: 15px; text-decoration: none; font-weight: bold; }
-        .burger-menu { display: none; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+        .logout-btn { color: #f5f5f0; margin-left: 15px; text-decoration: none; font-weight: bold; }
+        .burger-menu { display: none; background: none; border: none; color: #f5f5f0; font-size: 1.5rem; cursor: pointer; }
         .theme-toggle { background: none; border: none; font-size: 1.2rem; cursor: pointer; margin-right: 15px; }
         
         @media (max-width: 768px) {

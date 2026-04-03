@@ -4,17 +4,24 @@
     <meta charset="utf-8" />
     <title>Intranet — Notes</title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/note.css') }}">
 </head>
 <body>
-
     {% include 'navbar.html' %}
-    
-
 
     <div class="main-container">
-        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div style="margin-bottom: 20px;">
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }}" style="padding: 10px; margin-bottom: 10px; border-radius: 4px; {% if category == 'error' %}background-color: #f8d7da; color: #721c24;{% else %}background-color: #d4edda; color: #155724;{% endif %}">
+                {{ message }}
+              </div>
+            {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
         <div class="header-section">
             <h1>Consultation des Notes</h1>
         </div>
@@ -23,8 +30,6 @@
         <div class="card form-section">
             <h2>Attribuer une nouvelle note</h2>
             <form action="/notes" method="POST" id="form-note">
-                <input type="hidden" name="csrf_token" value="dummy_token_to_replace">
-                
                 <div class="form-group">
                     <label>Étudiant : 
                         <select name="etudiant_id" required>
@@ -89,14 +94,12 @@
                         <td>{{ note.date_formatee }}</td>
                         {% if role == 'admin' %}
                         <td>
-                            <!-- Action Modifier -->
                             <form action="/notes" method="POST" style="display:inline-block; margin-bottom: 5px;">
                                 <input type="hidden" name="action" value="edit">
                                 <input type="hidden" name="note_id" value="{{ note.id }}">
-                                <input type="number" step="0.1" name="nouvelle_valeur" value="{{ note.valeur }}" style="width: 60px;" required>
+                                <input type="text" pattern="[0-9]+(?:[,\.][0-9]+)?" name="nouvelle_valeur" value="{{ note.valeur }}" style="width: 60px;" required>
                                 <button type="submit" style="padding: 2px 5px; font-size: 12px; background-color: #f59e0b; color: white; border: none; border-radius: 3px;">Modifier</button>
                             </form>
-                            <!-- Action Supprimer -->
                             <form action="/notes" method="POST" style="display:inline-block;" onsubmit="return confirm('Supprimer cette note ?');">
                                 <input type="hidden" name="action" value="delete">
                                 <input type="hidden" name="note_id" value="{{ note.id }}">
@@ -107,16 +110,11 @@
                     </tr>
                     {% else %}
                     <tr>
-                        <td colspan="5" style="text-align: center; color: #64748b;">Aucune note à afficher pour le moment.</td>
+                        <td colspan="{% if role == 'admin' %}5{% elif role == 'professeur' %}4{% else %}3{% endif %}" style="text-align: center; color: #64748b;">Aucune note à afficher pour le moment.</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
-        </div>
-
-        <div class="card" id="info-section">
-            <h2>Informations Intranet</h2>
-            <pre id="info">Chargement...</pre>
         </div>
 
     </div>

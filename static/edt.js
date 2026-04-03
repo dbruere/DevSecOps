@@ -27,7 +27,15 @@ document.addEventListener('DOMContentLoaded', function() {
             let selectedClass = document.getElementById('classSelector').value;
             fetch('/api/cours?classe=' + encodeURIComponent(selectedClass))
                 .then(response => response.json())
-                .then(data => successCallback(data))
+                .then(data => {
+                    // Appliquer la couleur verte de la nouvelle charte aux cours par défaut
+                    const coloredData = data.map(event => ({
+                        ...event,
+                        backgroundColor: '#10b981', // Vert charte
+                        borderColor: '#10b981' // Vert charte
+                    }));
+                    successCallback(coloredData);
+                })
                 .catch(error => failureCallback(error));
         },
         selectable: window.userRole === 'admin' || window.userRole === 'professeur',
