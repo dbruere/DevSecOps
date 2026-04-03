@@ -19,7 +19,7 @@
             <h1>Consultation des Notes</h1>
         </div>
 
-        {% if role == 'professeur' %}
+        {% if role in ['professeur', 'admin'] %}
         <div class="card form-section">
             <h2>Attribuer une nouvelle note</h2>
             <form action="/notes" method="POST" id="form-note">
@@ -38,6 +38,9 @@
 
                 <div class="form-group">
                     <label>Matière : 
+                        {% if role == 'admin' %}
+                        <input type="text" name="matiere" required placeholder="Saisir la matière">
+                        {% else %}
                         <strong>
                             {% if matieres %}
                                 {{ matieres }}
@@ -46,6 +49,7 @@
                                 Aucune matière assignée
                             {% endif %}
                         </strong>
+                        {% endif %}
                     </label>
                 </div>
 
@@ -65,10 +69,13 @@
                     <tr>
                         <th>Matière</th>
                         <th>Note</th>
-                        {% if role == 'professeur' %}
+                        {% if role in ['professeur', 'admin'] %}
                         <th>Étudiant</th>
                         {% endif %}
                         <th>Date d'ajout</th>
+                        {% if role == 'admin' %}
+                        <th>Actions</th>
+                        {% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -76,14 +83,31 @@
                     <tr>
                         <td>{{ note.matiere }}</td>
                         <td><strong>{{ note.valeur }} / 20</strong></td>
-                        {% if role == 'professeur' %}
+                        {% if role in ['professeur', 'admin'] %}
                         <td>{{ note.etudiant_prenom }} {{ note.etudiant_nom }}</td>
                         {% endif %}
                         <td>{{ note.date_formatee }}</td>
+                        {% if role == 'admin' %}
+                        <td>
+                            <!-- Action Modifier -->
+                            <form action="/notes" method="POST" style="display:inline-block; margin-bottom: 5px;">
+                                <input type="hidden" name="action" value="edit">
+                                <input type="hidden" name="note_id" value="{{ note.id }}">
+                                <input type="number" step="0.1" name="nouvelle_valeur" value="{{ note.valeur }}" style="width: 60px;" required>
+                                <button type="submit" style="padding: 2px 5px; font-size: 12px; background-color: #f59e0b; color: white; border: none; border-radius: 3px;">Modifier</button>
+                            </form>
+                            <!-- Action Supprimer -->
+                            <form action="/notes" method="POST" style="display:inline-block;" onsubmit="return confirm('Supprimer cette note ?');">
+                                <input type="hidden" name="action" value="delete">
+                                <input type="hidden" name="note_id" value="{{ note.id }}">
+                                <button type="submit" style="padding: 2px 5px; font-size: 12px; background-color: #ef4444; color: white; border: none; border-radius: 3px;">Supprimer</button>
+                            </form>
+                        </td>
+                        {% endif %}
                     </tr>
                     {% else %}
                     <tr>
-                        <td colspan="4" style="text-align: center; color: #64748b;">Aucune note à afficher pour le moment.</td>
+                        <td colspan="5" style="text-align: center; color: #64748b;">Aucune note à afficher pour le moment.</td>
                     </tr>
                     {% endfor %}
                 </tbody>
