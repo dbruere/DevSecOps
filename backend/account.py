@@ -12,7 +12,6 @@ def account(db):
     nom = mes_claims.get("nom")
     prenom = mes_claims.get("prenom")
     user = prenom + " " + nom
-    # test classes = mes_claims.get("classes")
     matiere = mes_claims.get("matiere")
 
     sql_all_users = text(

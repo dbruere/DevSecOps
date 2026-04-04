@@ -9,9 +9,6 @@ def notes(db):
     mes_claims = get_jwt()
     user_id = mes_claims.get("id")
     role = mes_claims.get("role")
-    # nom = mes_claims.get("nom")
-    # prenom = mes_claims.get("prenom")
-    # test user = prenom + " " + nom
     classes = mes_claims.get("classes")
     matiere = mes_claims.get("matiere")
 
