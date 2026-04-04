@@ -6,13 +6,13 @@ import hashlib
 
 def account(db):
 
-    current_username = get_jwt_identity()
+    # test current_username = get_jwt_identity()
     mes_claims = get_jwt()
     role = mes_claims.get("role")
     nom = mes_claims.get("nom")
     prenom = mes_claims.get("prenom")
     user = prenom + " " + nom
-    classes = mes_claims.get("classes")
+    # test classes = mes_claims.get("classes")
     matiere = mes_claims.get("matiere")
 
     sql_all_users = text(

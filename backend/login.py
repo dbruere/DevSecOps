@@ -13,7 +13,8 @@ def sha256_hash(password):
 
 def check_user(db, login, password):
     query = text(
-        "SELECT id, nom, prenom, login, password, role, classes, matiere FROM users WHERE login=:login AND password=:password LIMIT 1"
+        "SELECT id, nom, prenom, login, password, role, classes, matiere "
+        "FROM users WHERE login=:login AND password=:password LIMIT 1"
     )
     result = db.session.execute(query, {"login": login, "password": password})
 
