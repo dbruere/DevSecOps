@@ -14,16 +14,16 @@ Application web avec plusieurs rôles utilisateurs : élève, professeur et admi
 - [x] JWT Token
 
 ### ACCEUIL
-- [ ] Nav bar
+- [x] Nav bar
 - [x] Actualité
 - [x] emploi du temps de la jounée
 - [x] notes récentes
 
 ### NOTES
 #### Professeur
-- [ ] mise en place des notes
+- [x] mise en place des notes
   - [x] ajouts de notes
-  - [ ] modification / suppression de notes
+  - [x] modification / suppression de notes
 - [x] gestion accès par role
        
 ### EMPLOI DU TEMPS
