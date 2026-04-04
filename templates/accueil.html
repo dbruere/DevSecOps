@@ -20,9 +20,9 @@
             <p class="page-subtitle">Bienvenue {{ username }} sur votre espace DevSecOps. Voici votre résumé du jour.</p>
         </div>
 
-        <!-- Widget : Actualités -->
+<!--////////////////////////////////////////////  affichage de message d'actualité  ///////////////////////////////////-->   
         <div class="card">
-            <h2>📰 Actualités</h2>
+            <h2>Actualités</h2>
             <div class="news-list">
                 {% for actu in actus %}
                 <div class="news-item">
@@ -34,11 +34,13 @@
                 {% endfor %}
             </div>
         </div>
+<!--//////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->  
 
-        <!-- Widget : Notes récentes -->
+
+<!--//////////////////////  affichage des notes recentes depuis la db si le role est etudiant ////////////////////////-->   
         <div class="card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h2 style="margin: 0;">🎓 Notes récentes</h2>
+                <h2 style="margin: 0;">Notes récentes</h2>
                 <a href="{{ url_for('notes') }}" style="display:inline-block; padding:8px 15px; background-color:#10b981; color:white; text-decoration:none; border-radius:5px; font-size:0.9em;">Voir mes Notes</a>
             </div>
             <table>
@@ -70,11 +72,13 @@
                 </tbody>
             </table>
         </div>
+<!--//////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->  
 
-        <!-- Widget : Emploi du Temps du Jour -->
+
+<!--//////////////////////////////  preview de l'emploie du temps journalier /////////////////////////////////////////-->
         <div class="card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h2 style="margin: 0;">📅 Emploi du Temps du Jour</h2>
+                <h2 style="margin: 0;">Emploi du Temps du Jour</h2>
                 <a href="{{ url_for('edt') }}" style="display:inline-block; padding:8px 15px; background-color:#10b981; color:white; text-decoration:none; border-radius:5px; font-size:0.9em;">Voir l'Emploi du Temps</a>
             </div>
             <div id="mini-calendar" style="padding:15px; background:#f8fafc; border-radius:8px; border:1px solid #e2e8f0; text-align:left;">
@@ -128,8 +132,9 @@
             calendar.render();
         });
     </script>
+<!--//////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 
-    <!-- Theme and Responsive Script -->
+<!--//////////////////////////////////////  Responsive pour mobile ///////////////////////////////////////////////////-->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Burger menu
@@ -144,5 +149,7 @@
             }
         });
     </script>
+<!--//////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->  
+
 </body>
 </html>

@@ -17,6 +17,8 @@
             <p class="page-subtitle">Administration complète des comptes de la plateforme</p>
         </div>
 
+
+<!--/////////////////////// mise en place de la confirmation de modification de la db ///////////////////////////////-->  
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
@@ -24,10 +26,11 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
+<!--//////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->  
 
+<!--///////////////////////////////////// creation de user dans la db ////////////////////////////////////////////////-->  
         <div class="card">
-            <h2>➕ Créer un utilisateur</h2>
-            
+            <h2>Créer un utilisateur</h2>            
                 <form action="{{ url_for('admin_users') }}" method="POST">
                   <input type="hidden" name="action" value="create">
                 <div class="form-grid">
@@ -60,19 +63,22 @@
                     </div>
                 </div>
                 <button type="submit">Créer le compte</button>
-                  </form>
-            
+                  </form>        
         </div>
+<!--//////////////////////////////////////////////////////////////////////////////////////////////////////////////////--> 
 
+<!--///////////////////////////// changement dynamique du champs en fonction du role //////////////////////////////////-->  
         <script>
             document.getElementById('role-select').addEventListener('change', function(e) {
                 document.getElementById('group-classe').style.display = e.target.value === 'etudiant' ? 'block' : 'none';
                 document.getElementById('group-matiere').style.display = e.target.value === 'professeur' ? 'block' : 'none';
             });
         </script>
+<!--//////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 
+<!--////////////////////////////////// affichages des users présents dans la db + modification //////////////////////////////////////-->  
         <div class="card">
-            <h2>📋 Liste et Modification des utilisateurs</h2>
+            <h2> Liste et Modification des utilisateurs</h2>
             <form action="{{ url_for('admin_users') }}" method="POST">
               <input type="hidden" name="action" value="edit_all">
               <div style="text-align: right; margin-bottom: 10px;">
@@ -91,10 +97,7 @@
                 </thead>
                 <tbody>
                     {% for user in users %}
-                    <tr>
-                        
-                            
-                            
+                    <tr>                     
                             <td>{{ user.id }}<input type="hidden" name="user_id_list" value="{{ user.id }}"></td>
                             <td>{{ user.prenom }} {{ user.nom }}</td>
                             {% if user.login == 'admin' %}
@@ -129,30 +132,24 @@
                                     <input type="text" name="matiere_{{ user.id }}" value="{{ user.matiere or '' }}" placeholder="Matière" style="padding:4px; width:100px;">
                                 </div>
                             </td>
+<!--///////////////////////////// prevention automatique contre la suppression du user admin  //////////////////////////////////-->  
                             {% endif %}
                             <td style="display:flex; gap:5px; align-items:center;">
                                 <input type="password" name="password_{{ user.id }}" placeholder="Nouveau MDP ?" style="padding:4px; width:110px;">
-                                
-                        
-                            {% if user.login != 'admin' %}
-                            
-                                
-                                
-                                <button type="submit" name="delete_user" value="{{ user.id }}"  style="margin:0; padding:5px 10px; font-size:14px; border-radius:3px; background:#ef4444; color:white; border:none; cursor:pointer;">Supprimer</button>
-                            
+                            {% if user.login != 'admin' %}                     
+                                <button type="submit" name="delete_user" value="{{ user.id }}"  style="margin:0; padding:5px 10px; font-size:14px; border-radius:3px; background:#ef4444; color:white; border:none; cursor:pointer;">Supprimer</button>                            
                             {% endif %}
                             </td>
                     </tr>
-                    {% endfor %}
+                   	 {% endfor %}
                 </tbody>
             </table>
-              <div style="text-align: right; margin-top: 10px;">
-                  <button type="submit" style="background: #2563eb; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">Tout mettre à jour</button>
-              </div>
           </form>
         </div>
     </div>
-    
+<!--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->    
+
+<!--///////////////////////////// changement dynamique du champs en fonction du role //////////////////////////////////-->    
     <script>
         document.querySelectorAll('.edit-role-select').forEach(function(select) {
             select.addEventListener('change', function(e) {
@@ -163,8 +160,9 @@
             });
         });
     </script>
+<!--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->    
 
-    <!-- Theme and Responsive Script -->
+<!--//////////////////////////////////////  Responsive pour mobile ////////////////////////////////////////////////////-->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Burger menu
@@ -179,5 +177,6 @@
             }
         });
     </script>
+<!--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 </body>
 </html>

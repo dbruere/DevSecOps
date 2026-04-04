@@ -5,35 +5,33 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - FLASK_APP=backend/app.py
-      # FLASK_DEBUG a 0 pour la production (securite DevSecOps)
-      - FLASK_DEBUG=1
-      - DATABASE_URL=mysql+pymysql://intranet_user:IntranetSecurePass!@db:3306/intranet
-      - FLASK_SECRET_KEY=cle_secrete_ultra_securisee_a_changer_en_prod
+    # secret key set avec la commande openssl rand -base64 32
+      - DATABASE_URL=mysql+pymysql://intranet_user:zpS9AKfVqPiTKTy6ccUdmZe1uijPx7wc@db:3306/intranet
+      - FLASK_SECRET_KEY=foktoNGvhRY8tjPvrtKw3D46gNeVhGQq9ChDl8vv2J8=
     depends_on:
       db:
         condition: service_healthy
-    # En production, on enleve le 'volumes: - .:/app' pour eviter que le conteneur lise les fichiers locaux
-    volumes:
-      - .:/app
     restart: unless-stopped
 
+############################################
+#           mise en place de la db         #
+############################################
   db:
-    image: mysql
+    image: mysql:8
     container_name: intranet_db
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: RootSecurePassword!
+    # mdp set avec la commande openssl rand -base64 24
+      MYSQL_ROOT_PASSWORD: hBTrghSeoBViPL1YPZRJCS99gE3g7zF2
       MYSQL_DATABASE: intranet
       MYSQL_USER: intranet_user
-      MYSQL_PASSWORD: IntranetSecurePass!
-    ports:
-      - "3307:3306"
+      MYSQL_PASSWORD: zpS9AKfVqPiTKTy6ccUdmZe1uijPx7wc
     volumes:
       - db_data:/var/lib/mysql
       - ./db.sql:/docker-entrypoint-initdb.d/init.sql
+    # checker la connexion avec la db
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pRootSecurePassword!"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-phBTrghSeoBViPL1YPZRJCS99gE3g7zF2"]
       interval: 10s
       timeout: 5s
       retries: 5

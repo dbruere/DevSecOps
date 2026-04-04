@@ -9,6 +9,7 @@
 <body>
     {% include 'navbar.html' %}
 
+<!--//////////////////////////////// flash message confirmation de cration de note ///////////////////////////////////-->
     <div class="main-container">
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
@@ -21,7 +22,9 @@
             </div>
           {% endif %}
         {% endwith %}
+<!--//////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 
+<!--//////////////////////////////////////// selection des étudiants /////////////////////////////////////////////////-->
         <div class="header-section">
             <h1>Consultation des Notes</h1>
         </div>
@@ -33,14 +36,17 @@
                 <div class="form-group">
                     <label>Étudiant : 
                         <select name="etudiant_id" required>
-                            <option value="">-- Sélectionner un étudiant --</option>
+                            <option value="">Sélectionner un étudiant</option>
                             {% for etu in etudiants %}
                                 <option value="{{ etu.id }}">{{ etu.prenom }} {{ etu.nom }}</option>
                             {% endfor %}
                         </select>
                     </label>
                 </div>
+<!--//////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 
+
+<!--/////////////////////////////////// saisir la matiere si le role est admin ///////////////////////////////////////-->
                 <div class="form-group">
                     <label>Matière : 
                         {% if role == 'admin' %}
@@ -66,7 +72,9 @@
             </form>
         </div>
         {% endif %}
+<!--//////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 
+<!--////////////////////// affichage uniquement des notes si le role est ettdiants ////////////////////////////////// -->
         <div class="card">
             <h2>Liste des notes</h2>
             <table>
@@ -116,7 +124,7 @@
                 </tbody>
             </table>
         </div>
-
+<!--//////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
     </div>
 
     <script src="{{ url_for('static', filename='Note.js') }}"></script>

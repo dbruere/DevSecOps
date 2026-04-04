@@ -12,16 +12,21 @@
             <a href="{{ url_for('notes') }}">Notes</a>
             <a href="{{ url_for('edt') }}">Emploi du Temps</a>
             <a href="{{ url_for('evaluations') }}">Évaluations</a>
+<!--//////////////// ajout de la session gestion d'utilisateur si le role est admin ///////////////////////////////////-->
             {% if session.get('user_role') == 'admin' %}
             <a href="{{ url_for('admin_users') }}">Gestion Utilisateurs</a>
             {% endif %}
+<!--//////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
         </div>
+<!--///////////////////////////// affichage du role de l'utilisateur /////////////////////////////////////////////////-->
         <div class="user-controls" id="user-controls">
             <span class="role-badge">{% if session.get('user_role') %}{{ session.get('user_role')|capitalize }}{% elif role %}{{ role|capitalize }}{% else %}Étudiant{% endif %}</span>
             <a href="{{ url_for('logout') }}" class="logout-btn">Déconnexion</a>
         </div>
+<!--//////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
     </div>
 </div>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {

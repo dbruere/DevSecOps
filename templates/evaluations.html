@@ -7,24 +7,22 @@
     <title>Intranet - Évaluations</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='accueil.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='Note.css') }}">
-    
-
-    
     <link rel="stylesheet" href="{{ url_for('static', filename='evaluations.css') }}">
 </head>
 <body>
-    
     {% include 'navbar.html' %}
+
     <div class="main-container">
         <h1>Évaluations et Projets</h1>
-        
+
+<!--///////////////////////  Messages flash confirmation de la creation de l'eval ////////////////////////////////////-->
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
             {% for category, message in messages %}
               {% if "Connexion" not in message %}
               <div style="padding: 10px; margin-bottom: 20px; border-radius: 4px; 
                   {% if category == 'success' %}background-color: #d1fae5; color: #065f46; border: 1px solid #34d399;
-                  {% elif category == 'danger' or category == 'error' %}background-color: #fee2e2; color: #991b1b; border: 1px solid #f87171;
+                  {% elif category in ['danger', 'error'] %}background-color: #fee2e2; color: #991b1b; border: 1px solid #f87171;
                   {% else %}background-color: #e0f2fe; color: #0284c7;{% endif %}">
                   {{ message }}
               </div>
@@ -32,91 +30,57 @@
             {% endfor %}
           {% endif %}
         {% endwith %}
+<!--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 
-        {% if role == 'professeur' %}
+
+<!--////////////////////////////  Formulaire de création (professeur/admin) ///////////////////////////////////////////-->
+        {% if role in ['professeur', 'admin'] %}
         <div class="card" style="margin-bottom: 30px;">
-            <h2>👩‍🏫 Mes Classes Attribuées</h2>
-            <div class="classes-badge-container">
-                {% if mes_classes %}
-                    {% for c in mes_classes %}
-                        <span class="classe-badge">Classe {{ c }}</span>
-                    {% endfor %}
-                    <p style="font-size: 0.9em; color:#64748b; margin-top: 10px;">Ces classes vous sont automatiquement attribuées via l'emploi du temps.</p>
-                {% else %}
-                    <p style="color:#64748b;">Aucune classe ne vous est actuellement attribuée (vous n'avez aucun cours programmé).</p>
-                {% endif %}
-            </div>
-
-            <h2>➕ Créer une évaluation ou un projet</h2>
+            <h2>Créer une évaluation ou un projet</h2>
             <form action="{{ url_for('evaluations') }}" method="POST" style="margin-top: 15px;">
                 <input type="hidden" name="action" value="create">
-                
+
                 <div style="display:flex; gap: 15px; flex-wrap: wrap;">
                     <div style="flex: 1; min-width: 200px;">
                         <label for="titre">Titre</label>
-                        <input type="text" id="titre" name="titre" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        <input type="text" id="titre" name="titre" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;">
                     </div>
+
                     <div style="flex: 1; min-width: 200px;">
                         <label for="classe">Classe ciblée</label>
-                        <select id="classe" name="classe" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        <select id="classe" name="classe" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;">
                             {% for c in classes_disponibles %}
                                 <option value="{{ c }}">Classe {{ c }}</option>
                             {% endfor %}
                         </select>
                     </div>
+
                     <div style="flex: 1; min-width: 200px;">
                         <label for="date_limite">Date de rendu / d'évaluation</label>
-                        <input type="date" id="date_limite" name="date_limite" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        <input type="date" id="date_limite" name="date_limite" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;">
                     </div>
                 </div>
-                
-                <div style="margin-top: 15px;">
+
+                <div style="margin-top:15px;">
                     <label for="description">Description et consignes</label>
-                    <textarea id="description" name="description" rows="4" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" required></textarea>
+                    <textarea id="description" name="description" rows="4" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;" required></textarea>
                 </div>
-                
-                <div style="margin-top: 15px; text-align: right;">
-                    <button type="submit" style="background-color: #10b981; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Créer le projet</button>
+
+                <div style="margin-top:15px; text-align:right;">
+                    <button type="submit" style="background-color:#10b981; color:white; padding:10px 20px; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">
+                        Créer le projet
+                    </button>
                 </div>
-            </form>
-        </div>
-        {% elif role == 'admin' %}
-        <div class="card" style="margin-bottom: 30px;">
-            <h2>🛠️ Créer une évaluation/projet (Vue Admin)</h2>
-            <form action="{{ url_for('evaluations') }}" method="POST" style="margin-top: 15px;">
-                <input type="hidden" name="action" value="create">
-                <!-- Idem que prof pour la simplication -->
-                <div style="display:flex; gap: 15px; flex-wrap: wrap;">
-                    <div style="flex: 1; min-width: 200px;">
-                        <label>Titre</label>
-                        <input type="text" name="titre" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-                    </div>
-                    <div style="flex: 1; min-width: 200px;">
-                        <label>Classe</label>
-                        <select name="classe" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-                            {% for c in classes_disponibles %}
-                                <option value="{{ c }}">Classe {{ c }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="flex: 1; min-width: 200px;">
-                        <label>Date limite</label>
-                        <input type="date" name="date_limite" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-                    </div>
-                </div>
-                <div style="margin-top: 15px;">
-                    <label>Description</label>
-                    <textarea name="description" rows="3" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" required></textarea>
-                </div>
-                <button type="submit" style="margin-top: 15px; background-color: #10b981; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Créer le projet</button>
             </form>
         </div>
         {% endif %}
+<!--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 
-        <h2>📋 Liste des Projets et Évaluations</h2>
-        
+
+<!--///////////////////////////////////////  Liste des évaluations ////////////////////////////////////////////////////-->
+        <h2>Liste des Projets et Évaluations</h2>
         {% if evaluations %}
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-top: 15px;">
+            <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:20px; margin-top:15px;">
                 {% for eval in evaluations %}
                 <div class="eval-card">
                     <h3>
@@ -125,31 +89,32 @@
                     </h3>
                     <p class="eval-desc">{{ eval.description }}</p>
                     <div class="eval-meta">
-                        <p>📅 <strong>Date limite :</strong> {{ eval.date_limite }}</p>
-                        <p>👨‍🏫 <strong>Professeur :</strong> {{ eval.professeur }}</p>
+                        <p><strong>Date limite :</strong> {{ eval.date_limite }}</p>
+                        <p><strong>Professeur :</strong> {{ eval.professeur }}</p>
                     </div>
+
                     {% if role in ['admin', 'professeur'] %}
-                    <form action="{{ url_for('evaluations') }}" method="POST" style="margin-top: 15px; text-align: right;">
+                    <form action="{{ url_for('evaluations') }}" method="POST" style="margin-top:15px; text-align:right;">
                         <input type="hidden" name="action" value="delete">
                         <input type="hidden" name="eval_id" value="{{ eval.id }}">
-                        <button type="submit" class="btn-delete" onsubmit="return confirm('Supprimer ce projet ?');">🗑️ Supprimer</button>
+                        <button type="submit" class="btn-delete" onclick="return confirm('Supprimer ce projet ?');">Supprimer</button>
                     </form>
                     {% endif %}
                 </div>
                 {% endfor %}
             </div>
         {% else %}
-            <p style="color: #64748b; padding: 20px; text-align: center; border: 1px dashed #cbd5e1; border-radius: 5px; background: #f8fafc;">
+            <p style="color:#64748b; padding:20px; text-align:center; border:1px dashed #cbd5e1; border-radius:5px; background:#f8fafc;">
                 Aucun projet ou évaluation planifié pour le moment.
             </p>
         {% endif %}
-
     </div>
+<!--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 
-    <!-- Theme and Responsive Script -->
+
+<!--//////////////////////////////////////  Responsive pour mobile ////////////////////////////////////////////////////-->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Burger menu
             const burger = document.getElementById('burger-menu');
             const navLinks = document.getElementById('nav-links');
             const userControls = document.getElementById('user-controls');
@@ -161,5 +126,7 @@
             }
         });
     </script>
+<!--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
 </body>
 </html>

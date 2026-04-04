@@ -8,7 +8,8 @@
 <body>
     <div class="login-box">
         <h2 style="text-align:center; margin-top:0;">Connexion</h2>
-        
+
+<!-- /////////////////////////////// flash message en cas de mdp incorrect ////////////////////////////// -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
@@ -16,7 +17,9 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
+<!-- //////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
+<!-- ///////// forcer la methode POST et rediriger vers l'url du login via le backend flask ///////////// -->
         <form method="POST" action="{{ url_for('login') }}">
             <div class="form-group">
                 <label>Nom d'utilisateur :</label>
@@ -28,6 +31,7 @@
             </div>
             <button type="submit" class="btn">Se connecter</button>
         </form>
+<!-- //////////////////////////////////////////////////////////////////////////////////////////////////// -->
     </div>
 </body>
 </html>
