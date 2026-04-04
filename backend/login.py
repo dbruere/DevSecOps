@@ -1,5 +1,4 @@
 from flask import render_template, request, redirect, make_response
-from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 import hashlib
 from flask_jwt_extended import create_access_token, set_access_cookies

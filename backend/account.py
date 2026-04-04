@@ -1,6 +1,5 @@
 from flask import render_template, request
 from flask_jwt_extended import get_jwt_identity, get_jwt
-from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 import hashlib
 

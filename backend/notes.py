@@ -1,18 +1,17 @@
 from flask import render_template, request, redirect, url_for, abort
 from flask_jwt_extended import get_jwt_identity, get_jwt
-from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 
 
 def notes(db):
 
-    current_username = get_jwt_identity()
+    # test current_username = get_jwt_identity()
     mes_claims = get_jwt()
     user_id = mes_claims.get("id")
     role = mes_claims.get("role")
     nom = mes_claims.get("nom")
     prenom = mes_claims.get("prenom")
-    user = prenom + " " + nom
+    # test user = prenom + " " + nom
     classes = mes_claims.get("classes")
     matiere = mes_claims.get("matiere")
 
