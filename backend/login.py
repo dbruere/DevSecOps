@@ -8,13 +8,18 @@ from flask_jwt_extended import create_access_token, set_access_cookies
 def sha256_hash(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
-# checker le user et le pass 
+
+# checker le user et le pass
+
+
 def check_user(db, login, password):
-    query = text("SELECT id, nom, prenom, login, password, role, classes, matiere FROM users WHERE login=:login AND password=:password LIMIT 1")
+    query = text(
+        "SELECT id, nom, prenom, login, password, role, classes, matiere FROM users WHERE login=:login AND password=:password LIMIT 1"
+    )
     result = db.session.execute(query, {"login": login, "password": password})
-    
+
     user_row = result.fetchone()
-    
+
     if user_row:
         return True, user_row
     return False, None
@@ -22,32 +27,34 @@ def check_user(db, login, password):
 
 def login(db):
     if request.method == "GET":
-        return render_template('login.html')
-    
+        return render_template("login.html")
+
     elif request.method == "POST":
         username = request.form.get("username")
         password = sha256_hash(request.form.get("password"))
 
         verif, user_row = check_user(db, username, password)
-        
-        if verif: 
+
+        if verif:
             claims_supplementaires = {
                 "id": user_row.id,
                 "role": user_row.role,
                 "nom": user_row.nom,
                 "prenom": user_row.prenom,
                 "classes": user_row.classes,
-                "matiere": user_row.matiere
+                "matiere": user_row.matiere,
             }
 
-            token = create_access_token(identity=username, additional_claims=claims_supplementaires)
-            
-            resp = make_response(redirect('/'))
+            token = create_access_token(
+                identity=username, additional_claims=claims_supplementaires
+            )
+
+            resp = make_response(redirect("/"))
             set_access_cookies(resp, token)
-            
+
             return resp
-        else :
+        else:
             return "Nom d'utilisateur ou mot de passe incorrecte"
 
-    else: 
+    else:
         return "Méthode non autorisée"
