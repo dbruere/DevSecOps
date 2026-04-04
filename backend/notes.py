@@ -10,7 +10,7 @@ def notes(db):
     user_id = mes_claims.get("id")
     role = mes_claims.get("role")
     # nom = mes_claims.get("nom")
-    #prenom = mes_claims.get("prenom")
+    # prenom = mes_claims.get("prenom")
     # test user = prenom + " " + nom
     classes = mes_claims.get("classes")
     matiere = mes_claims.get("matiere")
