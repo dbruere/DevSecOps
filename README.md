@@ -13,7 +13,7 @@ Application web avec plusieurs rôles utilisateurs : élève, professeur et admi
 - [x] chiffrement des passwords
 - [x] JWT Token
 
-### ACCEUIL
+### ACCUEIL
 - [x] Nav bar
 - [x] Actualité
 - [x] emploi du temps de la jounée
