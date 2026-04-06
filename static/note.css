@@ -1,5 +1,5 @@
-/* ===== Notes page specific styles ===== */
-/* Inherits base styles from accueil.css */
+/* ===== Notes page — styles complémentaires ===== */
+/* Hérite des styles de base depuis accueil.css    */
 
 /* --- Formulaire Professeur --- */
 .form-section {
@@ -14,19 +14,19 @@
     display: block;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    color: #1e293b;
+    color: #121212;
 }
 
 .form-group input,
 .form-group select {
     width: 100%;
     padding: 0.75rem;
-    border: 1px solid #cbd5e1;
+    border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 1rem;
     outline: none;
     background-color: #fff;
-    color: #1e293b;
+    color: #121212;
 }
 
 .form-group input:focus,
@@ -36,10 +36,9 @@
 }
 
 /* --- Bouton principal --- */
-.card button[type="submit"],
-#form-note > button {
+button {
     background-color: #10b981;
-    color: #fff;
+    color: #f5f5f0;
     padding: 0.75rem 1.5rem;
     border: none;
     border-radius: 6px;
@@ -50,40 +49,6 @@
     margin-top: 10px;
 }
 
-.card button[type="submit"]:hover,
-#form-note > button:hover {
-    background-color: #059669;
-}
-
-/* --- Tableau des Notes --- */
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-th, td {
-    padding: 1rem;
-    text-align: left;
-    border-bottom: 1px solid #e2e8f0;
-}
-
-th {
-    background-color: #f1f5f9;
-    font-weight: 600;
-    color: #1e293b;
-}
-
-tr:hover td {
-    background-color: #f8fafc;
-}
-
-/* --- Section Informations (Fichier texte) --- */
-pre {
-    background-color: #f8fafc;
-    padding: 1rem;
-    border-radius: 6px;
-    border: 1px solid #e2e8f0;
-    color: #1e293b;
-    white-space: pre-wrap;
-    font-family: inherit;
+button:hover {
+    background-color: #0d9668;
 }
