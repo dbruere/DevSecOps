@@ -36,7 +36,7 @@ Application web avec plusieurs rôles utilisateurs : élève, professeur et admi
 - [x] Suppression de cours
 
 ### AUTRES
-- [ ] mise en place du Docker
+- [x] mise en place du Docker
 - [x] Github actions
   - [x] FLAKE8
   - [x] ZAP-SCAN
