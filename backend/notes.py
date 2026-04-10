@@ -5,7 +5,7 @@ from sqlalchemy import text
 
 def notes(db):
 
-    # test current_username = get_jwt_identity()
+    # recup le jwt token
     mes_claims = get_jwt()
     user_id = mes_claims.get("id")
     role = mes_claims.get("role")
@@ -89,12 +89,10 @@ def notes(db):
         """)
         notes = db.session.execute(query, {"uid": user_id}).mappings().all()
 
-    # On s'assure que prof_classes ne vaut pas "None" s'il n'a pas de classe
-    # assignée
+    # On s'assure que prof_classes ne vaut pas "None" s'il n'a pas de classe assignée
     prof_classes_str = classes if classes else ""
 
-    # FIND_IN_SET(A, B) cherche si la valeur A de l'étudiant se trouve dans la
-    # liste B du prof !
+    # FIND_IN_SET(A, B) cherche si la valeur A de l'étudiant se trouve dans la liste B du prof !
     query_etu = text("""
         SELECT id, nom, prenom
         FROM users
