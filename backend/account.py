@@ -6,7 +6,7 @@ import hashlib
 
 def account(db):
 
-    # test current_username = get_jwt_identity()
+    # recup le jwt
     mes_claims = get_jwt()
     role = mes_claims.get("role")
     nom = mes_claims.get("nom")
@@ -28,8 +28,7 @@ def account(db):
             (request.form.get("password")).encode()
         ).hexdigest()
 
-        # On récupère toutes les classes cochées dans un tableau Python : ["1",
-        # "3"]
+        # On récupère toutes les classes cochées dans un tableau Python : ["1","3"]
         classes_array = request.form.getlist("classes")
         # On les rejoint avec des virgules (donnera "1,3"). S'il n'y a rien, on
         # met None.
